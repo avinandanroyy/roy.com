@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAZE - Clothing Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#ffffff',
+                        accent: '#f8f9fa',
+                        dark: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 font-sans transition-colors duration-300">
+    <!-- Navigation Bar -->
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border-b border-white/20 dark:border-gray-700/20 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#home" class="text-2xl font-bold text-black dark:text-white transition-colors duration-300">HAZE</a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors duration-200">Home</a>
+                    <a href="#products" class="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors duration-200">Products</a>
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors duration-200">About</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors duration-200">Contact</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <button id="searchBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="cartBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200 relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button id="userBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button id="signupBtn" class="bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black px-4 py-2 rounded-lg hover:bg-black dark:hover:bg-white transition-colors duration-200">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 border border-white/20 dark:border-gray-700/20 transition-colors duration-300">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Search Products</h3>
+                <button id="closeSearch" class="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 transition-colors duration-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex gap-2 mb-4">
+                <input type="text" id="searchInput" placeholder="Search for clothing..." 
+                       class="flex-1 px-4 py-3 border border-gray-200/50 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                <button class="px-4 py-3 bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black rounded-lg hover:bg-black dark:hover:bg-white transition-colors duration-200">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="searchSuggestions"></div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed top-0 right-0 h-full w-96 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-2xl transform translate-x-full transition-transform duration-300 z-40 border-l border-white/20 dark:border-gray-700/20 transition-colors duration-300">
+        <div class="flex flex-col h-full">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100/50 dark:border-gray-700/50">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Shopping Cart</h3>
+                <button id="closeCart" class="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 transition-colors duration-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Cart Tabs -->
+            <div class="flex border-b border-gray-100/50 dark:border-gray-700/50">
+                <button id="cartTab" class="flex-1 py-3 px-4 text-sm font-medium text-gray-900 dark:text-white border-b-2 border-black dark:border-white transition-colors duration-200">
+                    Cart (<span id="cartTabCount">0</span>)
+                </button>
+                <button id="savedTab" class="flex-1 py-3 px-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                    Saved (<span id="savedTabCount">0</span>)
+                </button>
+            </div>
+            
+            <div id="cartItems" class="flex-1 overflow-y-auto p-6">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            
+            <div id="savedItems" class="flex-1 overflow-y-auto p-6 hidden">
+                <!-- Saved items will be dynamically added here -->
+            </div>
+            
+            <div class="border-t border-gray-100/50 dark:border-gray-700/50 p-6 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm">
+                <!-- Cart Summary -->
+                <div id="cartSummary" class="space-y-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600 dark:text-gray-300">Subtotal:</span>
+                        <span id="cartSubtotal" class="text-gray-900 dark:text-white font-medium">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600 dark:text-gray-300">Shipping:</span>
+                        <span id="cartShipping" class="text-gray-900 dark:text-white font-medium">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600 dark:text-gray-300">Tax:</span>
+                        <span id="cartTax" class="text-gray-900 dark:text-white font-medium">$0.00</span>
+                    </div>
+                    <div class="border-t border-gray-200/50 dark:border-gray-600/50 pt-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-900 dark:text-white">Total:</span>
+                            <span id="cartTotal" class="text-xl font-bold text-black dark:text-white">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Empty Cart Message -->
+                <div id="emptyCartMessage" class="hidden text-center py-8">
+                    <i class="fas fa-shopping-cart text-4xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                    <p class="text-gray-500 dark:text-gray-400 mb-4">Your cart is empty</p>
+                    <button id="continueShopping" class="bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black px-6 py-2 rounded-lg hover:bg-black dark:hover:bg-white transition-colors duration-200">
+                        Continue Shopping
+                    </button>
+                </div>
+                
+                <button id="checkoutBtn" class="w-full bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black py-3 rounded-lg hover:bg-black dark:hover:bg-white transition-colors duration-200 font-semibold mt-4">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Menu -->
+    <div id="userMenu" class="fixed top-16 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl border border-white/20 dark:border-gray-700/20 transform translate-x-full transition-transform duration-300 z-30 w-64 transition-colors duration-300">
+        <div class="p-4">
+            <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100/50 dark:border-gray-700/50">
+                <i class="fas fa-user-circle text-2xl text-gray-400 dark:text-gray-500"></i>
+                <span class="text-gray-700 dark:text-gray-300">Welcome, Guest</span>
+            </div>
+            <ul class="space-y-2">
+                <li><a href="#profile" class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200"><i class="fas fa-user"></i> My Profile</a></li>
+                <li><a href="#orders" class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200"><i class="fas fa-box"></i> My Orders</a></li>
+                <li><a href="#wishlist" class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200"><i class="fas fa-heart"></i> Wishlist</a></li>
+                <li><a href="#settings" class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-lg transition-colors duration-200"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#home" class="flex items-center gap-3 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-white/20">
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Join HAZE</h1>
+                    <p class="text-gray-600">Create your account and start shopping today</p>
+                </div>
+
+                <form class="signup-form space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required 
+                                   class="w-full pl-12 pr-4 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required 
+                                   class="w-full pl-12 pr-4 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <div class="relative">
+                            <i class="fas fa-phone absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required 
+                                   class="w-full pl-12 pr-4 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="password" id="password" name="password" placeholder="Create a strong password" required 
+                                   class="w-full pl-12 pr-12 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                            <button type="button" id="passwordToggle" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required 
+                                   class="w-full pl-12 pr-12 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                            <button type="button" id="confirmPasswordToggle" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                        <div class="relative">
+                            <i class="fas fa-calendar absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="date" id="birthdate" name="birthdate" required 
+                                   class="w-full pl-12 pr-4 py-3 border border-gray-200/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white/80 backdrop-blur-sm transition-colors duration-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Gender</label>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="gender" value="male" required class="sr-only">
+                                <span class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <span class="w-3 h-3 bg-black rounded-full hidden"></span>
+                                </span>
+                                <span class="text-gray-700">Male</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="gender" value="female" required class="sr-only">
+                                <span class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <span class="w-3 h-3 bg-black rounded-full hidden"></span>
+                                </span>
+                                <span class="text-gray-700">Female</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="gender" value="other" required class="sr-only">
+                                <span class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <span class="w-3 h-3 bg-black rounded-full hidden"></span>
+                                </span>
+                                <span class="text-gray-700">Other</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" id="newsletter" name="newsletter" class="mt-1 w-4 h-4 text-black border-gray-300 rounded focus:ring-black">
+                            <span class="text-sm text-gray-600">Subscribe to our newsletter for updates and offers</span>
+                        </label>
+
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" id="terms" name="terms" required class="mt-1 w-4 h-4 text-black border-gray-300 rounded focus:ring-black">
+                            <span class="text-sm text-gray-600">I agree to the <a href="#terms" class="text-black hover:underline">Terms & Conditions</a> and <a href="#privacy" class="text-black hover:underline">Privacy Policy</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="signup-btn w-full bg-black/90 backdrop-blur-sm text-white py-3 rounded-lg font-semibold hover:bg-black transition-colors duration-200 relative overflow-hidden">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-loading hidden">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>Creating Account...
+                        </span>
+                    </button>
+                </form>
+
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200/50"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white/90 backdrop-blur-sm text-gray-500">or sign up with</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button type="button" class="social-btn google w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200/50 rounded-lg hover:bg-white/50 transition-colors duration-200 bg-white/80 backdrop-blur-sm">
+                        <i class="fab fa-google text-red-500"></i>
+                        <span class="text-gray-700 font-medium">Continue with Google</span>
+                    </button>
+                    <button type="button" class="social-btn facebook w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200/50 rounded-lg hover:bg-white/50 transition-colors duration-200 bg-white/80 backdrop-blur-sm">
+                        <i class="fab fa-facebook-f text-blue-600"></i>
+                        <span class="text-gray-700 font-medium">Continue with Facebook</span>
+                    </button>
+                    <button type="button" class="social-btn twitter w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200/50 rounded-lg hover:bg-white/50 transition-colors duration-200 bg-white/80 backdrop-blur-sm">
+                        <i class="fab fa-twitter text-blue-400"></i>
+                        <span class="text-gray-700 font-medium">Continue with Twitter</span>
+                    </button>
+                </div>
+
+                <div class="text-center mt-8">
+                    <p class="text-gray-600">Already have an account? <a href="#home" class="text-black hover:underline font-medium">Sign in</a></p>
+                    <div class="flex items-center justify-center gap-2 mt-4 p-3 bg-green-50/80 backdrop-blur-sm border border-green-200/50 rounded-lg">
+                        <i class="fas fa-shield-alt text-green-600"></i>
+                        <span class="text-sm text-green-700">Your data is protected with bank-level security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section id="home" class="bg-gradient-to-br from-black/90 to-gray-800/90 dark:from-gray-900/90 dark:to-black/90 text-white py-20 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-black/20 to-gray-800/20 dark:from-gray-900/20 dark:to-black/20"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h1 class="text-5xl font-bold mb-6">WELCOME TO HAZE</h1>
+                        <p class="text-xl mb-8 opacity-90">Discover premium shirts and bottoms in classic black and white</p>
+                        <div class="flex gap-4">
+                            <button class="bg-white/90 backdrop-blur-sm text-black px-8 py-3 rounded-lg font-semibold hover:bg-white transition-colors duration-200">Shop Now</button>
+                            <button class="border-2 border-white/80 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition-colors duration-200">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        <img src="logo-png.png" alt="HAZE" class="rounded-2xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Products Section -->
+        <section id="products" class="py-20 bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Collection</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300">Discover premium clothing in classic black and white</p>
+                </div>
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">ABOUT HAZE</h2>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">We're your destination for premium shirts and bottoms in classic black and white. With a focus on quality, comfort, and timeless design, we offer a curated collection of shirts and bottoms that never goes out of style.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <i class="fas fa-shipping-fast text-3xl text-black dark:text-white mb-4"></i>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Fast Shipping</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Free shipping on orders over $50</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-shield-alt text-3xl text-black dark:text-white mb-4"></i>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Secure Payment</h4>
+                                <p class="text-gray-600 dark:text-gray-300">100% secure payment processing</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-undo text-3xl text-black dark:text-white mb-4"></i>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Easy Returns</h4>
+                                <p class="text-gray-600 dark:text-gray-300">30-day return policy</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        <img src="logo-png.png" alt="About HAZE" class="rounded-2xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-sm transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Contact Us</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300">We'd love to hear from you</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-map-marker-alt text-2xl text-black dark:text-white mt-1"></i>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Address</h4>
+                                <p class="text-gray-600 dark:text-gray-300">123 Fashion Street, Style City, SC 12345</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-phone text-2xl text-black dark:text-white mt-1"></i>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Phone</h4>
+                                <p class="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-envelope text-2xl text-black dark:text-white mt-1"></i>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Email</h4>
+                                <p class="text-gray-600 dark:text-gray-300">support@haze.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-white/20 dark:border-gray-700/20 transition-colors duration-300">
+                        <div class="space-y-6">
+                            <div>
+                                <input type="text" placeholder="Your Name" required 
+                                       class="w-full px-4 py-3 border border-gray-200/50 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                            </div>
+                            <div>
+                                <input type="email" placeholder="Your Email" required 
+                                       class="w-full px-4 py-3 border border-gray-200/50 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                            </div>
+                            <div>
+                                <textarea placeholder="Your Message" rows="5" required 
+                                          class="w-full px-4 py-3 border border-gray-200/50 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black py-3 rounded-lg font-semibold hover:bg-black dark:hover:bg-white transition-colors duration-200">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900/90 dark:bg-black/90 backdrop-blur-md text-white py-16 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">HAZE</h3>
+                    <p class="text-gray-400 mb-4">Your trusted clothing destination</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors duration-200">Home</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition-colors duration-200">Products</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors duration-200">About</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-200">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Customer Service</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#help" class="text-gray-400 hover:text-white transition-colors duration-200">Help Center</a></li>
+                        <li><a href="#returns" class="text-gray-400 hover:text-white transition-colors duration-200">Returns</a></li>
+                        <li><a href="#shipping" class="text-gray-400 hover:text-white transition-colors duration-200">Shipping Info</a></li>
+                        <li><a href="#size-guide" class="text-gray-400 hover:text-white transition-colors duration-200">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe for updates and offers</p>
+                    <form class="flex gap-2">
+                        <input type="email" placeholder="Enter your email" 
+                               class="flex-1 px-4 py-2 bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-gray-400">
+                        <button type="submit" class="px-4 py-2 bg-white/90 backdrop-blur-sm text-black rounded-lg hover:bg-white transition-colors duration-200">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800/50 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 HAZE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
