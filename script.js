@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="flex items-center justify-between">
                     <span class="text-2xl font-bold text-gray-900 dark:text-white">$${product.price.toFixed(2)}</span>
                     <button class="add-to-cart bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black px-4 py-2 rounded-lg hover:bg-black dark:hover:bg-white transition-colors duration-200 font-medium text-sm" data-product-id="${product.id}">
-                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        Add to Cart
                     </button>
                 </div>
             </div>
@@ -844,23 +844,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update cart summary with shipping and tax
     function updateCartSummary() {
-        if (!cartSubtotal || !cartShipping || !cartTax || !cartTotal) return;
+        if (!cartShipping || !cartTotal) return;
         
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const shipping = calculateShipping(subtotal);
-        const tax = calculateTax(subtotal);
-        const total = subtotal + shipping + tax;
-
-        cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+        const totalProducts = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shipping = calculateShipping(totalProducts);
+        const total = totalProducts + shipping;
         cartShipping.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
-        cartTax.textContent = `$${tax.toFixed(2)}`;
         cartTotal.textContent = `$${total.toFixed(2)}`;
-
-        // Show shipping message
-        if (shipping === 0) {
-            showNotification('Free shipping on orders over $100!', 'success');
-        } else if (subtotal >= 50) {
-            showNotification('Add $' + (100 - subtotal).toFixed(2) + ' more for free shipping!', 'info');
+        // Estimated delivery date (5 days from now)
+        if (cartDeliveryEstimate) {
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 5);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            cartDeliveryEstimate.textContent = deliveryDate.toLocaleDateString(undefined, options);
         }
     }
 
