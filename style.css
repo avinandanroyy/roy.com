@@ -6,14 +6,14 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f8f9fa;
-    color: #333;
+    background: #fff;
+    color: #111;
     line-height: 1.6;
 }
 
 /* Navigation Bar */
 .navbar {
-    background: rgba(102, 126, 234, 0.95);
+    background: #111;
     backdrop-filter: blur(15px);
     padding: 1rem 2rem;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -22,7 +22,7 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid #ccc;
 }
 
 .nav-container {
@@ -36,14 +36,15 @@ body {
 .logo {
     font-size: 1.8rem;
     font-weight: bold;
-    color: white;
+    color: #fff;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .logo:hover {
-    color: #f0f0f0;
+    color: #ccc;
     transform: scale(1.05);
+    background: #222;
 }
 
 .nav-links {
@@ -54,7 +55,7 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: white;
+    color: #fff;
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
@@ -77,7 +78,7 @@ body {
 .search-btn, .cart-btn, .user-btn {
     background: rgba(255, 255, 255, 0.2);
     border: none;
-    color: white;
+    color: #fff;
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
@@ -95,8 +96,8 @@ body {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #e74c3c;
-    color: white;
+    background: #111;
+    color: #fff;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -126,7 +127,7 @@ body {
 }
 
 .search-content {
-    background: white;
+    background: #fff;
     padding: 2rem;
     border-radius: 15px;
     width: 90%;
@@ -195,7 +196,7 @@ body {
     right: -400px;
     width: 400px;
     height: 100vh;
-    background: white;
+    background: #fff;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 1500;
     transition: right 0.3s ease;
@@ -262,7 +263,7 @@ body {
     top: 80px;
     right: -300px;
     width: 300px;
-    background: white;
+    background: #fff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     z-index: 1400;
@@ -321,8 +322,8 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: #111;
+    color: #fff;
     padding: 4rem 2rem;
     display: flex;
     align-items: center;
@@ -359,14 +360,14 @@ body {
 }
 
 .cta-btn.primary {
-    background: white;
-    color: #667eea;
+    background: #fff;
+    color: #111;
 }
 
 .cta-btn.secondary {
     background: transparent;
-    color: white;
-    border: 2px solid white;
+    color: #fff;
+    border: 2px solid #fff;
 }
 
 .cta-btn:hover {
@@ -390,12 +391,12 @@ body {
 .section-header h2 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #111;
 }
 
 .section-header p {
     font-size: 1.1rem;
-    color: #666;
+    color: #555;
 }
 
 /* Categories Section */
@@ -412,7 +413,7 @@ body {
 }
 
 .category-card {
-    background: white;
+    background: #fff;
     padding: 2rem;
     border-radius: 15px;
     text-align: center;
@@ -434,11 +435,11 @@ body {
 
 .category-card h3 {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #111;
 }
 
 .category-card p {
-    color: #666;
+    color: #555;
 }
 
 /* Products Section */
@@ -456,7 +457,7 @@ body {
 }
 
 .product-card {
-    background: white;
+    background: #fff;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -492,7 +493,7 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #111;
 }
 
 .product-price {
@@ -560,7 +561,7 @@ body {
 /* About Section */
 .about-section {
     padding: 4rem 2rem;
-    background: white;
+    background: #fff;
     margin: 2rem auto;
     max-width: 1200px;
     border-radius: 15px;
@@ -579,12 +580,12 @@ body {
 .about-text h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: #111;
 }
 
 .about-text p {
     font-size: 1.1rem;
-    color: #666;
+    color: #555;
     margin-bottom: 2rem;
 }
 
@@ -607,11 +608,11 @@ body {
 
 .feature h4 {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #111;
 }
 
 .feature p {
-    color: #666;
+    color: #555;
     font-size: 0.9rem;
 }
 
@@ -658,15 +659,15 @@ body {
 
 .contact-item h4 {
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #111;
 }
 
 .contact-item p {
-    color: #666;
+    color: #555;
 }
 
 .contact-form {
-    background: white;
+    background: #fff;
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -710,8 +711,8 @@ body {
 
 /* Footer */
 .footer {
-    background: #2c3e50;
-    color: white;
+    background: #111;
+    color: #fff;
     padding: 3rem 2rem 1rem;
     margin-top: 4rem;
 }
@@ -728,11 +729,11 @@ body {
 .footer-section h3,
 .footer-section h4 {
     margin-bottom: 1rem;
-    color: #667eea;
+    color: #111;
 }
 
 .footer-section p {
-    color: #bdc3c7;
+    color: #555;
     margin-bottom: 1rem;
 }
 
@@ -745,13 +746,13 @@ body {
 }
 
 .footer-section ul li a {
-    color: #bdc3c7;
+    color: #555;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .footer-section ul li a:hover {
-    color: #667eea;
+    color: #111;
 }
 
 .social-links {
@@ -760,13 +761,13 @@ body {
 }
 
 .social-links a {
-    color: #bdc3c7;
+    color: #555;
     font-size: 1.5rem;
     transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-    color: #667eea;
+    color: #111;
 }
 
 .newsletter-form {
@@ -799,7 +800,7 @@ body {
     text-align: center;
     padding-top: 2rem;
     border-top: 1px solid #34495e;
-    color: #bdc3c7;
+    color: #555;
 }
 
 /* Responsive Design */
@@ -874,7 +875,7 @@ body {
 
 /* Signup Page Styles */
 .signup-container {
-    background: white;
+    background: #fff;
     padding: 3rem;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -890,17 +891,17 @@ body {
 }
 
 .signup-header h1 {
-    color: #333;
+    color: #111;
     margin-bottom: 0.5rem;
     font-size: 2.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #111;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .signup-header p {
-    color: #666;
+    color: #555;
     font-size: 1.1rem;
 }
 
@@ -1079,8 +1080,8 @@ body {
 .signup-btn {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: #111;
+    color: #fff;
     border: none;
     border-radius: 10px;
     font-size: 1.1rem;
@@ -1131,7 +1132,7 @@ body {
     padding: 12px 20px;
     border: 2px solid #e1e5e9;
     border-radius: 10px;
-    background: white;
+    background: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
@@ -1202,7 +1203,7 @@ body {
 
 .signup-footer p {
     margin-bottom: 0.5rem;
-    color: #666;
+    color: #555;
 }
 
 .signin-link {
@@ -1222,13 +1223,13 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    color: #10b981;
+    color: #888;
     font-size: 0.9rem;
     margin-top: 1rem;
     padding: 0.75rem;
-    background: rgba(16, 185, 129, 0.1);
+    background: #eee;
     border-radius: 8px;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    border: 1px solid #ccc;
 }
 
 .security-note i {
@@ -1237,7 +1238,7 @@ body {
 
 /* Form validation styles */
 .input-wrapper.error input {
-    border-color: #e74c3c;
+    border-color: #888;
     box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
 }
 
@@ -1247,7 +1248,7 @@ body {
 }
 
 .error-message {
-    color: #e74c3c;
+    color: #888;
     font-size: 0.85rem;
     margin-top: 0.25rem;
     display: flex;
@@ -1280,7 +1281,7 @@ body {
 }
 
 .password-strength-bar.weak {
-    background: #e74c3c;
+    background: #888;
     width: 25%;
 }
 
